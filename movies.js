@@ -48,7 +48,7 @@
                    $scope.filename = $scope.data["movies"][index]["title"].replace(/ /g, ".") + '.m4v';
                };
                $scope.findDvd = function(e) {
-                   var response = $video.search('yaf6teansrndryqqa9tvdnv4', $scope.dvd, '5');
+                   var response = $video.search('', $scope.dvd, '5');
                    response
                        .success(function(data, status) {
                            console.log('SUCCESS' + data);
