@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html ng-app="myapp" manifest="covers.appcache">
   <head>
-    <title>
-      My Movie Library
-    </title>
+    <title>My Movie Library</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.6/angular.min.js">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.18/angular.min.js">
     </script>
-    <script src="https://cdn.firebase.com/js/client/1.0.11/firebase.js">
+    <script src="https://cdn.firebase.com/js/client/2.0.3/firebase.js">
     </script>
-    <script src="https://cdn.firebase.com/libs/angularfire/0.7.1/angularfire.min.js">
+    <script src="https://cdn.firebase.com/libs/angularfire/0.8.0/angularfire.min.js">
     </script>
     <script src="rottentomatoes.js">
     </script>
@@ -42,220 +40,104 @@
             <a class="navbar-brand" href="#">
               {{filteredMovies.length}} Movies Visible
             </a>
-            <span  class="nullable">
-              <select novalidate="" ng-model="selectedItem" ng-options="device.type for device in devices | orderByPriority">
-                <option value="">
-                  -- choose device --
-                </option>
-              </select>
-              
-            </span>
-            <br/>
-          </div>
-          
+<span  class="nullable">
+<div >
+    <select novalidate="" ng-model="selectedItem" ng-options="device.type for device in devices">
+      <option value="">-- choose device --</option>
+    </select>
+</div>
+  </span>
+<br/>
+</div>        
         </div>
         
       </div>
-      
-      <div class="navbar navbar-inverse navbar-fixed-bottom" role="navigation" ng-show="selectedItem.type == 'roku'">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <span  class="nullable">
-              <button ng-click='rokuRemote("back")'>
-                <span class="glyphicon glyphicon-arrow-left" >
-                </span>
-              </button>
-              <button ng-click='rokuRemote("left")'>
-                <span class="glyphicon glyphicon-chevron-left" >
-                </span>
-              </button>
-              <button ng-click='rokuRemote("up")'>
-                <span class="glyphicon glyphicon-chevron-up" >
-                </span>
-              </button>
-              <button ng-click='rokuRemote("play")' ng-show="play">
-                <span class="glyphicon glyphicon-play" >
-                </span>
-              </button>
-              <button ng-click='rokuRemote("pause")' ng-hide="play">
-                <span class="glyphicon glyphicon-pause" >
-                </span>
-              </button>
-              <button ng-click='rokuRemote("stop")'>
-                <span class="glyphicon glyphicon-stop" >
-                </span>
-              </button>
-              <button ng-click='rokuRemote("down")'>
-                <span class="glyphicon glyphicon-chevron-down" >
-                </span>
-              </button>
-              <button ng-click='rokuRemote("right")'>
-                <span class="glyphicon glyphicon-chevron-right" >
-                </span>
-              </button>
-              
-              
-            </span>
-            <br/>
-          </div>
-          
-        </div>
-        
-      </div>
-      
-      Title Covers Provided by 
-      <a href="http://www.rottentomatoes.com/">
-        Rottentomatoes
-      </a>
-      {{selectedItem.type}}
-      <div align="left">
-        <input type="text" ng-model="dvd" placeholder="Find DVD Name" style="width:100%;font-size:24px;">
-        <button type="button" class="btn btn-primary btn-lg active" ng-click="findDvd()">
-          Find Movie
-        </button>
-        <button type="button" class="btn btn-primary btn-lg active" ng-click="clearResults()">
-          Clear
-        </button>
-      </input>
-      <div ng-hide="!data">
-        <div class="row">
-          <div class="col-md-4" src="#" ng-repeat="(id,movie) in data['movies']" style="border: 1px solid; border-radius: 25px; box-shadow: 10px 10px 5px; margin-bottom: 25px;margin-right: 25px;">
-            {{movie["title"]}} 
-            <br />
-            <img ng-src={{movie["posters"]["thumbnail"]}} />
-            
-            <br />
-            {{movie["ratings"]["critics_rating"]}} 
-            
-            <br />
-            <a href="" ng-click="showDetails(id)" ng-hide="details[id]">
-              <span class="glyphicon glyphicon-chevron-down">
-              </span>
-            </a>
-            <a href="" ng-click="showDetails(id)" ng-show="details[id]">
-              <span class="glyphicon glyphicon-chevron-up">
-              </span>
-            </a>
-            <div ng-show="details[id]">
-              
-              {{movie}}
-            </div>
-            <button type="button" class="btn btn-primary btn-sm active" ng-click="selectDVD(id)">
-              Select
-            </button>
-            <br />
-          </div>
-          <br />
-          <br />
-        </div>
-      </div>
-      <div ng-hide="!filename">
-        <input type="text" ng-model="filename" placeholder="FileName" style="width:100%;font-size:24px;" ng-show="edit">
-      </input>
-      <label ng-hide="edit">
-        {{filename}}
-      </label>
-      <a href="#" ng-click="editFilename()" ng-hide="edit">
-        edit
-      </a>
-      <button type="button" class="btn btn-primary btn-lg active" ng-click="addDvd()">
-        Add Movie
+
+
+    Title Covers Provided by 
+    <a href="http://www.rottentomatoes.com/">
+      Rottentomatoes
+    </a>
+{{selectedItem.type}}
+    <div align="left">
+      <input type="text" ng-model="dvd" placeholder="Find DVD Name" style="width:100%;font-size:24px;">
+      <button type="button" class="btn btn-primary btn-lg active" ng-click="findDvd()">
+        Find Movie
       </button>
-    </div>
-  </div>
-  <br />
-  <div>
-    
-    <input type="text" ng-model="search" placeholder="Search DVD In Library" style="width:100%;font-size:24px;">
-    <div ng-repeat="(id,movie) in filteredMovies = (movies | orderByPriority | filter:search)">
-      <span ng-switch="" on="$index % 3">
-        <div class="row" ng-switch-when="0">
-          <div class="col-md-4" src="#" ng-show="filteredMovies[$index+0]">
-            <img ng-src={{filteredMovies[$index+0].thumbnail}} />
-            
-            <br />
-            
-            <small>
-              {{filteredMovies[$index+0].title}}
-            </small>
-            <br />
-            <small>
-              Rating: {{filteredMovies[$index+0].rating}} 
-            </small>
-            <br />
-            <small>
-              Filename: {{filteredMovies[$index+0].filename}} 
-            </small>
-            <br />
-            <!-- 
-<button type="button" class="btn btn-primary btn-sm active" ng-click="playDvd(movie)">
-Play (unimplemented)
-</button>
--->
-          <a href='http://{{selectedItem["ip"]}}/{{filteredMovies[$index+0].filename}}' ng-hide="!selectedItem">
-            Play
-            <span class="glyphicon glyphicon-play">
-            </span>
+      <button type="button" class="btn btn-primary btn-lg active" ng-click="clearResults()">
+        Clear
+      </button>
+    </input>
+    <div ng-hide="!data">
+      <div class="row">
+        <div class="col-md-4" src="#" ng-repeat="(id,movie) in data['movies']" style="border: 1px solid; border-radius: 25px; box-shadow: 10px 10px 5px; margin-bottom: 25px;margin-right: 25px;">
+          {{movie["title"]}} 
+          <br />
+          <img ng-src={{movie["posters"]["thumbnail"]}} />
+          
+          <br />
+          {{movie["ratings"]["critics_rating"]}} 
+          
+          <br />
+          <a href="" ng-click="showDetails(id)" ng-hide="details[id]"><span class="glyphicon glyphicon-chevron-down"></span>
           </a>
-        </div>
-        <div class="col-md-4" src="#" ng-show="filteredMovies[$index+1]">
-          <img ng-src={{filteredMovies[$index+1].thumbnail}} />
-          
-          <br />
-          <small>
-            {{filteredMovies[$index+1].title}}
-          </small>
-          <br />
-          <small>
-            Rating: {{filteredMovies[$index+1].rating}} 
-          </small>
-          <br />
-          <small>
-            Filename: {{filteredMovies[$index+1].filename}} 
-          </small>
-          
-          <br />
-          <button type="button" class="btn btn-primary btn-sm active" ng-click="playDvd(10)">
-            Play (unimplemented)
+          <a href="" ng-click="showDetails(id)" ng-show="details[id]">
+            <span class="glyphicon glyphicon-chevron-up"></span>
+          </a>
+          <div ng-show="details[id]">
+            
+            {{movie}}
+          </div>
+          <button type="button" class="btn btn-primary btn-sm active" ng-click="selectDVD(id)">
+            Select
           </button>
-          <a href='http://{{selectedItem["ip"]}}/{{filteredMovies[$index+1].filename}}' ng-hide="!selectedItem">
-            Play
-            <span class="glyphicon glyphicon-play">
-            </span>
-          </a>
+          <br />
         </div>
-        <div class="col-md-4" src="#" ng-shotitlew="filteredMovies[$index+2]">
-          <img ng-src={{filteredMovies[$index+2].thumbnail}} />
-          
-          <br />
-          <small>
-            {{filteredMovies[$index+2].title}}
-          </small>
-          <br />
-          <small>
-            Rating: {{filteredMovies[$index+2].rating}} 
-          </small>
-          <br />
-          <small>
-            Filename: {{filteredMovies[$index+2].filename}} 
-          </small>
-          
-          <br />
-          
-          <!--
-<button type="button" class="btn btn-primary btn-sm active" ng-click="playDvd($index + 2)">
-Play (unimplemented)
-</button>
--->
-          <a href='http://{{selectedItem["ip"]}}/{{filteredMovies[$index+2].filename}}'ng-hide="!selectedItem">
-            Play
-            <span class="glyphicon glyphicon-play">
-            </span>
-          </a>
-        </div>
+        <br />
+        <br />
       </div>
-    </span>
+    </div>
+    <div ng-hide="!filename">
+      <input type="text" ng-model="filename" placeholder="FileName" style="width:100%;font-size:24px;" ng-show="edit">
+    </input>
+    <label ng-hide="edit">
+      {{filename}}
+    </label>
+    <a href="#" ng-click="editFilename()" ng-hide="edit">
+      edit
+    </a>
+    <button type="button" class="btn btn-primary btn-lg active" ng-click="addDvd()">
+      Add Movie
+    </button>
   </div>
+</div>
+<br />
+<div>
+  <!-- Needs lots of work to get back to the display of previous version, but control of Chromecast is proven -->
+  <input type="text" ng-model="search" placeholder="Search DVD In Library" style="width:100%;font-size:24px;">
+  <div ng-repeat="(id,movie) in movies | filter:search">
+    
+          <img ng-src={{movie.thumbnail}} ng-click="play_movie(movie.filename)"/>          
+          <br />
+
+          <small>
+            {{movie.title}}
+          </small>
+          <br />
+          <small>
+            Rating: {{movie.rating}} 
+          </small>
+          <br />
+          <small>
+            Filename: {{movie.filename}} 
+          </small>
+          <br />
+         <!-- <button type="button" class="btn btn-primary btn-sm active" ng-click="playDvd(movie)">
+            Play (unimplemented)
+          </button>-->
+<a href='http://{{selectedItem["ip"]}}/{{movie.filename}}' ng-hide="!selectedItem">Play Local<span class="glyphicon glyphicon-play"></span></a>
+        </div>
+        
   
-  </body>
+</body>
 </html>
